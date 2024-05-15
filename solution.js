@@ -14,7 +14,16 @@ const selectors = {
     searchAuthors: '[data-search-authors]',
     searchCancel: '[data-search-cancel]',
     settingsCancel: '[data-settings-cancel]',
-    
+    settingsTheme: '[data-settings-theme]',
+    searchHeader: '[data-header-search]',
+    searchTitle: '[data-search-title]',
+    headerSettings: '[data-header-settings]',
+    listClose: '[data-list-close]',
+    listActive: '[list-active]',
+    settingsForm: '[data-settings-form]',
+    searchForm: '[data-search-form]',
+    listMessage: '[data-list-message]',
+  
 }
 
 
