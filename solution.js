@@ -5,6 +5,19 @@ let matches = books
 
 const starting = document.createDocumentFragment()
 
+//query selectors object
+const selectors = {
+    listItems: '[data-list-item]',
+    listButton: '[data-list-button]',
+    searchOverlay: '[data-seach-overlay]',
+    searchGenre: '[data-search-genres]',
+    searchAuthors: '[data-search-authors]',
+    searchCancel: '[data-search-cancel]',
+    settingsCancel: '[data-settings-cancel]',
+    
+}
+
+
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
@@ -89,6 +102,7 @@ selectDataListButton.innerHTML = `
     <span class="list__remaining"> (${(matches.length - (page * BOOKS_PER_PAGE)) > 0 ? (matches.length - (page * BOOKS_PER_PAGE)) : 0})</span>
 `
 //line 78-84 is repetetive- make function
+function querySelectorAll([data-search-cancel],[data-settings-cancel],[] ){}
 document.querySelector('[data-search-cancel]').addEventListener('click', () => {
     dataSearchOverlay.open = false //repetitive code - line 83,112
 })
