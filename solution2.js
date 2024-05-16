@@ -20,7 +20,8 @@ const selectors = {
     settingsForm: '[data-settings-form]',
     searchForm: '[data-search-form]',
     listMessage: '[data-list-message]',
-    settingsOverlay: '[data-settings-overlay]'
+    settingsOverlay: '[data-settings-overlay]',
+    
   
 }
 
@@ -58,7 +59,7 @@ for (const [id, name] of Object.entries(genres)) {
     genreHtml.appendChild(element)
 }
 
-document.querySelector('[data-search-genres]').appendChild(genreHtml)
+document.querySelector(selectors.searchGenre).appendChild(genreHtml)
 
 const authorsHtml = document.createDocumentFragment()
 const firstAuthorElement = document.createElement('option')
@@ -73,10 +74,11 @@ for (const [id, name] of Object.entries(authors)) {
     authorsHtml.appendChild(element)
 }
 
-document.querySelector('[data-search-authors]').appendChild(authorsHtml)
+document.querySelector(selectors.searchAuthors).appendChild(authorsHtml)
 
 const themes = {
-    dark:{dark: '255, 255, 255',
+    dark:{
+    dark: '255, 255, 255',
     light: '10, 10, 20',
 },
     light: {
@@ -85,15 +87,18 @@ const themes = {
 }
 }
 
-/**
- * 
- * @param {*} themes 
- */
+
 function nightTheme(themes){
     document.documentElement.style.setProperty('--color-dark', themes.dark);
     document.documentElement.style.setProperty('--color-light', themes.light);
 }
 nightTheme();
+
+
+function dayTheme(themes){
+    document.documentElement.style.setProperty('--color-dark', themes.light);
+    document.documentElement.style.setProperty('--color-light', themes.dark);
+}
 
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
     document.querySelector(selectors.settingsTheme).value = 'night'
@@ -113,10 +118,7 @@ document.querySelector(selectors.listButton).innerHTML = `
 `
 
 
-/**
- * 
- * @param {*} selectors 
- */
+
 function dataCancel(selectors){
     document.querySelector(selectors.searchCancel,settingsCancel).addEventListener('click', () => {
     document.querySelector(searchOverlay. set).open = false
@@ -124,8 +126,8 @@ function dataCancel(selectors){
 }
 dataCancel();
 
-document.querySelector('[data-settings-cancel]').addEventListener('click', () => {
-    document.querySelector('[data-settings-overlay]').open = false
+document.querySelector(selectors.settingsCancel).addEventListener('click', () => {
+    document.querySelector(selectors.settingsOverlay).open = false
 })
 
 document.querySelector(selectors.headerSettings).addEventListener('click', () => {
@@ -133,12 +135,12 @@ document.querySelector(selectors.headerSettings).addEventListener('click', () =>
     document.querySelector(selectors.searchTitle).focus()
 })
 
-document.querySelector('[data-header-settings]').addEventListener('click', () => {
-    document.querySelector('[data-settings-overlay]').open = true 
+document.querySelector(selectors.headerSettings).addEventListener('click', () => {
+    document.querySelector(selectors.settingsOverlay).open = true 
 })
 
-document.querySelector('[data-list-close]').addEventListener('click', () => {
-    document.querySelector('[data-list-active]').open = false
+document.querySelector(selectors.listClose).addEventListener('click', () => {
+    document.querySelector(selectors.listActive).open = false
 })
 
 document.querySelector(selectors.settingsForm).addEventListener('submit', (event) => {
@@ -153,10 +155,10 @@ document.querySelector(selectors.settingsForm).addEventListener('submit', (event
         dayTheme();
     }
     
-    document.querySelector('[data-settings-overlay]').open = false
+    document.querySelector(selectors.settingsOverlay).open = false
 })
 
-document.querySelector('[data-search-form]').addEventListener('submit', (event) => {
+document.querySelector(selectors.searchForm).addEventListener('submit', (event) => {
     event.preventDefault()
     const formData = new FormData(event.target)
     const filters = Object.fromEntries(formData)
@@ -183,12 +185,12 @@ document.querySelector('[data-search-form]').addEventListener('submit', (event) 
     matches = result
 
     if (result.length < 1) {
-        document.querySelector('[data-list-message]').classList.add('list__message_show')
+        document.querySelector(selectors.listMessage).classList.add('list__message_show')
     } else {
-        document.querySelector('[data-list-message]').classList.remove('list__message_show')
+        document.querySelector(selectors.listMessage).classList.remove('list__message_show')
     }
 
-    document.querySelector('[data-list-items]').innerHTML = ''
+    document.querySelector(selectors.listMessage).innerHTML = ''
     const newItems = document.createDocumentFragment()
 
     for (const { author, id, image, title } of result.slice(0, BOOKS_PER_PAGE)) {
@@ -207,19 +209,19 @@ document.querySelector('[data-search-form]').addEventListener('submit', (event) 
         newItems.appendChild(element)
     }
 
-    document.querySelector('[data-list-items]').appendChild(newItems)
-    document.querySelector('[data-list-button]').disabled = (matches.length - (page * BOOKS_PER_PAGE)) < 1
+    document.querySelector(selectors.listItems).appendChild(newItems)
+    document.querySelector(selectors.listButton).disabled = (matches.length - (page * BOOKS_PER_PAGE)) < 1
 
-    document.querySelector('[data-list-button]').innerHTML = `
+    document.querySelector(selectors.listButton).innerHTML = `
         <span>Show more</span>
         <span class="list__remaining"> (${(matches.length - (page * BOOKS_PER_PAGE)) > 0 ? (matches.length - (page * BOOKS_PER_PAGE)) : 0})</span>
     `
 
     window.scrollTo({top: 0, behavior: 'smooth'});
-    document.querySelector('[data-search-overlay]').open = false
+    document.querySelector(selectors.searchOverlay).open = false
 })
 
-document.querySelector('[data-list-button]').addEventListener('click', () => {
+document.querySelector(selectors.listButton).addEventListener('click', () => {
     const fragment = document.createDocumentFragment()
 
     for (const { author, id, image, title } of matches.slice(page * BOOKS_PER_PAGE, (page + 1) * BOOKS_PER_PAGE)) {
@@ -238,11 +240,11 @@ document.querySelector('[data-list-button]').addEventListener('click', () => {
         fragment.appendChild(element)
     }
 
-    document.querySelector('[data-list-items]').appendChild(fragment)
+    document.querySelector(selectors.listItems).appendChild(fragment)
     page += 1
 })
 
-document.querySelector('[data-list-items]').addEventListener('click', (event) => {
+document.querySelector(selectors.listItems).addEventListener('click', (event) => {
     const pathArray = Array.from(event.path || event.composedPath())
     let active = null
 

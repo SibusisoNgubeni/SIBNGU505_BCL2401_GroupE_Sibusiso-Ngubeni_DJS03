@@ -45,7 +45,7 @@ for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
  //data list items repetitive on line 150,172,207,211
  
  //made data-list-item querySelector into function because of repetition
- function selectDataListItems(){
+ function selectDataListItems(listItems){
     return document.querySelector('[data-list-items]');
  }
  const dataListItems = selectDataListItems();
