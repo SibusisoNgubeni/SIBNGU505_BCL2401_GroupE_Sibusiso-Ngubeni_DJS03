@@ -3,6 +3,23 @@ import { books, authors, genres, BOOKS_PER_PAGE } from './data.js'
 let page = 1;
 let matches = books
 
+const starting = document.createDocumentFragment()
+
+for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
+    const element = document.createElement('button')
+    element.classList = 'preview'
+    element.setAttribute('data-preview', id)
+
+    element.innerHTML = `
+        <img class="preview__image" src="${image}"/> 
+        <div class="preview__info">
+            <h3 class="preview__title">${title}</h3>
+            <div class="preview__author">${authors[author]}</div>
+        </div>
+    `
+    starting.appendChild(element)
+}
+
 const selectors = {
     listItems: '[data-list-items]',
     listButton: '[data-list-button]',
@@ -21,30 +38,9 @@ const selectors = {
     searchForm: '[data-search-form]',
     listMessage: '[data-list-message]',
     settingsOverlay: '[data-settings-overlay]',
-    
-  
 }
 
-
-
-const starting = document.createDocumentFragment()
-
-for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
-    const element = document.createElement('button')
-    element.classList = 'preview'
-    element.setAttribute('data-preview', id)
-
-    element.innerHTML = `
-        <img class="preview__image" src="${image}"/> 
-        <div class="preview__info">
-            <h3 class="preview__title">${title}</h3>
-            <div class="preview__author">${authors[author]}</div>
-        </div>
-    `
-    starting.appendChild(element)
-}
-
-document.querySelector(selectors.listItems).appendChild(starting)//data list items append
+document.querySelector(selectors.listItems).appendChild(starting)
 
 const genreHtml = document.createDocumentFragment()
 const firstGenreElement = document.createElement('option')
@@ -58,9 +54,9 @@ for (const [id, name] of Object.entries(genres)) {
     element.innerText = name
     genreHtml.appendChild(element)
 }
-
+Function append(){
 document.querySelector(selectors.searchGenre).appendChild(genreHtml)
-
+}
 const authorsHtml = document.createDocumentFragment()
 const firstAuthorElement = document.createElement('option')
 firstAuthorElement.value = 'any'
@@ -76,29 +72,28 @@ for (const [id, name] of Object.entries(authors)) {
 
 document.querySelector(selectors.searchAuthors).appendChild(authorsHtml)
 
-const themes = {
-    dark:{
+const darkTheme = {
     dark: '255, 255, 255',
     light: '10, 10, 20',
-},
-    light: {
+}
+const lightTheme = {
     dark: '10, 10, 20',
     light: '255, 255, 255',
 }
-}
 
 
-function nightTheme(themes){
-    document.documentElement.style.setProperty('--color-dark', themes.dark);
-    document.documentElement.style.setProperty('--color-light', themes.light);
+function nightTheme(){
+    document.documentElement.style.setProperty('--color-dark', darkTheme);
+    document.documentElement.style.setProperty('--color-light', lightTheme);
 }
 nightTheme();
 
 
-function dayTheme(themes){
-    document.documentElement.style.setProperty('--color-dark', themes.light);
-    document.documentElement.style.setProperty('--color-light', themes.dark);
+function dayTheme(){
+    document.documentElement.style.setProperty('--color-dark', lightTheme);
+    document.documentElement.style.setProperty('--color-light', darkTheme);
 }
+dayTheme();
 
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
     document.querySelector(selectors.settingsTheme).value = 'night'
@@ -120,12 +115,13 @@ document.querySelector(selectors.listButton).innerHTML = `
 
 
 function dataCancel(selectors){
-    document.querySelector(selectors.searchCancel,settingsCancel).addEventListener('click', () => {
-    document.querySelector(searchOverlay. set).open = false
+    document.querySelector(selectors.settingsCancel).addEventListener('click', () => {
+    
 })
 }
 dataCancel();
 
+document.querySelector((selectors.searchOverlay). set).open = false
 document.querySelector(selectors.settingsCancel).addEventListener('click', () => {
     document.querySelector(selectors.settingsOverlay).open = false
 })
