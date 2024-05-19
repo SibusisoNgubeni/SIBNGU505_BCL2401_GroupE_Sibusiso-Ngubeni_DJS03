@@ -122,8 +122,13 @@ const updateListButton2 = () =>{
 }
      updateListButton2();  
 
+<<<<<<< HEAD
+document.querySelector('[data-search-cancel]').addEventListener('click', () => {
+    document.querySelector('[data-search-overlay]').open = false
+=======
 document.querySelector(selectors.searchCancel).addEventListener('click', () => {
     document.querySelector(selectors.searchOverlay).open = false
+>>>>>>> 9b782eff80aca092857fa924b000b609ece5a324
 })
 
 document.querySelector(selectors.settingsCancel).addEventListener('click', () => {
