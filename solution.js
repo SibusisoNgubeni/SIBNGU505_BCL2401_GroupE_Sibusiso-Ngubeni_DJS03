@@ -23,7 +23,7 @@ for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
 const selectors = {
     listItems: '[data-list-items]',
     listButton: '[data-list-button]',
-    searchOverlay: '[data-seach-overlay]',
+    searchOverlay: '[data-search-overlay]',
     searchGenre: '[data-search-genres]',
     searchAuthors: '[data-search-authors]',
     searchCancel: '[data-search-cancel]',
@@ -38,6 +38,14 @@ const selectors = {
     searchForm: '[data-search-form]',
     listMessage: '[data-list-message]',
     settingsOverlay: '[data-settings-overlay]',
+    listBlur: '[data-list-blur]',
+    listImage: '[data-list-image]',
+    listTitle: '[data-list-title]',
+    listSubtitle: '[data-list-subtitle]',
+    listDescription: '[data-list-description]',
+
+
+
 }
 
 document.querySelector(selectors.listItems).appendChild(starting)
@@ -110,10 +118,7 @@ updateListButton();
 const updateListButton2 = () =>{
     const button = document.querySelector(selectors.listButton);
     button.disabled = (matches.length - (page * BOOKS_PER_PAGE)) < 1
-    button.innerHTML = `
-    <span>Show more</span>
-    <span class="list__remaining"> (${(matches.length - (page * BOOKS_PER_PAGE)) > 0 ? (matches.length - (page * BOOKS_PER_PAGE)) : 0})</span>
-`
+ 
 }
      updateListButton2();  
 
@@ -132,7 +137,7 @@ document.querySelector(selectors.settingsCancel).addEventListener('click', () =>
 
 document.querySelector(selectors.searchHeader).addEventListener('click', () => {
     document.querySelector(selectors.searchOverlay).open = true 
-    document.querySelector(selectors.searchTitle).focus()
+    document.querySelector(selectors.searchTitle).focus();
 })
 
 document.querySelector(selectors.headerSettings).addEventListener('click', () => {
@@ -258,11 +263,11 @@ document.querySelector(selectors.listItems).addEventListener('click', (event) =>
     }
     
     if (active) {
-        document.querySelector('[data-list-active]').open = true
-        document.querySelector('[data-list-blur]').src = active.image
-        document.querySelector('[data-list-image]').src = active.image
-        document.querySelector('[data-list-title]').innerText = active.title
-        document.querySelector('[data-list-subtitle]').innerText = `${authors[active.author]} (${new Date(active.published).getFullYear()})`
-        document.querySelector('[data-list-description]').innerText = active.description
+        document.querySelector(selectors.listActive).open = true
+        document.querySelector(selectors.listBlur).src = active.image
+        document.querySelector(selectors.listImage).src = active.image
+        document.querySelector(selectors.listTitle).innerText = active.title
+        document.querySelector(selectors.listSubtitle).innerText = `${authors[active.author]} (${new Date(active.published).getFullYear()})`
+        document.querySelector(selectors.listDescription).innerText = active.description
     }
 })
